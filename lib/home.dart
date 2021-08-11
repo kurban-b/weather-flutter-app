@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_app/fetchTheData.dart';
 import 'navigationDraw.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -13,11 +14,16 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   late Future<Weather> futureWeather;
 
+  var data;
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     futureWeather = fetchWeather();
+
+    data = futureWeather;
   }
 
   @override
@@ -26,7 +32,6 @@ class _HomeState extends State<Home> {
         child: Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
-
             title: Text('Погода'),
           ),
           drawer: NavigationDraw(),
@@ -34,6 +39,7 @@ class _HomeState extends State<Home> {
             future: futureWeather,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
+                data = snapshot.data!.list[0];
                 return Column(
                   children: [
                     Row(
@@ -122,7 +128,7 @@ class _HomeState extends State<Home> {
                                       Column(
                                         children: [
                                           Text(
-                                            '${snapshot.data!.list[0]['main']['humidity']} °',
+                                            '${snapshot.data!.list[0]['main']['humidity']} %',
                                             style: TextStyle(fontSize: 30,color: Colors.white,),
                                           ),
                                           Text('Влажность воздуха', style: TextStyle(fontSize: 15,color: Colors.white,),)
@@ -139,7 +145,7 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '01.10.2021',
+                          '11.08.2021',
                           style: TextStyle(
                               fontSize: 50,
                               fontWeight: FontWeight.bold),
@@ -151,7 +157,7 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '9:30',
+                          '23:15',
                           style: TextStyle(
                               fontSize: 50,
                               fontWeight: FontWeight.bold),
@@ -172,7 +178,18 @@ class _HomeState extends State<Home> {
           floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-
+              print(data);
+              FirebaseFirestore.instance.collection('notes').add({'note': data});
+              showDialog(context: context, builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text('Запись добавлена'),
+                  actions: [
+                    ElevatedButton(onPressed: () {
+                      Navigator.of(context).pop();
+                    }, child: Text('OK'))
+                  ],
+                );
+              });
             },
             child: Icon(Icons.add),
             backgroundColor: Colors.deepOrange,
@@ -184,7 +201,7 @@ class _HomeState extends State<Home> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  Text('t°'),
+                  Text('t°', style: TextStyle(fontSize: 30),),
                   IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
                 ],
               ),
