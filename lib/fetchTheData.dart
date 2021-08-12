@@ -4,8 +4,10 @@ import 'package:http/http.dart' as http;
 import 'package:geolocator/geolocator.dart';
 
 Future<Weather> fetchWeather() async {
-  final geo = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-  final response = await http.get(Uri.parse('https://api.openweathermap.org/data/2.5/find?lat=${geo.latitude}&lon=${geo.longitude}&cnt=1&appid=f8c9d469332454cad8b9864264de12c8&lang=ru'));
+  final geo = await Geolocator()
+      .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+  final response = await http.get(Uri.parse(
+      'https://api.openweathermap.org/data/2.5/find?lat=${geo.latitude}&lon=${geo.longitude}&cnt=1&appid=f8c9d469332454cad8b9864264de12c8&lang=ru'));
 
   if (response.statusCode == 200) {
     return Weather.fromJson(jsonDecode(response.body));
@@ -36,4 +38,3 @@ class Weather {
     );
   }
 }
-

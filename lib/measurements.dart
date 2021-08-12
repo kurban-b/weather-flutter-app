@@ -130,7 +130,7 @@ class _MeasurementsState extends State<Measurements> {
               Text('t°', style: TextStyle(fontSize: 30),),
               IconButton(onPressed: () {
                 Navigator.pushNamed(context, '/');
-              }, icon: Icon(Icons.home)),
+                    }, icon: Icon(Icons.home)),
             ],
           ),
         )
