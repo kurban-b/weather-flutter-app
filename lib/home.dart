@@ -207,7 +207,9 @@ class _HomeState extends State<Home> {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Text('t°', style: TextStyle(fontSize: 30),),
-                  IconButton(onPressed: () {}, icon: Icon(Icons.menu)),
+                  IconButton(onPressed: () {
+                    Navigator.pushNamed(context, '/notes');
+                  }, icon: Icon(Icons.menu)),
                 ],
               ),
             )
