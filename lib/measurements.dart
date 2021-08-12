@@ -74,7 +74,8 @@ class _MeasurementsState extends State<Measurements> {
                                       ),
                                     ),
                                     Container(
-                                      child: Text('дата',
+                                      child: Text('${DateFormat('dd.MM.yyyy')
+                                          .format(DateTime.fromMillisecondsSinceEpoch(snapshot.data!.docs[index].get('note')['dt'] * 1000))}',
                                         style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.normal

@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_weather_app/fetchTheData.dart';
+import 'package:intl/intl.dart';
 import 'navigationDraw.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
+
+
 
   @override
   _HomeState createState() => _HomeState();
@@ -145,7 +148,8 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '11.08.2021',
+                          '${DateFormat('dd.MM.yyyy')
+                              .format(DateTime.fromMillisecondsSinceEpoch(snapshot.data!.list[0]['dt'] * 1000))}',
                           style: TextStyle(
                               fontSize: 50,
                               fontWeight: FontWeight.bold),
@@ -157,7 +161,8 @@ class _HomeState extends State<Home> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          '23:15',
+                          '${DateFormat('hh:mm')
+                              .format(DateTime.fromMillisecondsSinceEpoch(snapshot.data!.list[0]['dt'] * 1000))}',
                           style: TextStyle(
                               fontSize: 50,
                               fontWeight: FontWeight.bold),
